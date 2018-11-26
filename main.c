@@ -9,6 +9,11 @@ typedef struct BTNode
     struct BTNode *rchild;
 }BTNode;
 
+void Visit(BTNode *p)
+{
+    printf("%c",p->data);
+}
+
 int main() {
     printf("Hello, World!\n");
     return 0;
