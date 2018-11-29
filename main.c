@@ -9,6 +9,7 @@ typedef struct BTNode
     struct BTNode *rchild;
 }BTNode;
 
+//遍历二叉树的结点值
 void Visit(BTNode *p)
 {
     printf("%c",p->data);
