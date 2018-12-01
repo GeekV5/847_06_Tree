@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define maxSize 100
+
 //链式存储结构
 typedef struct BTNode
 {
@@ -41,7 +43,7 @@ void CreateBiTree(BTNode *bt)
     }
 }
 
-//先序遍历二叉树
+//先序递归遍历二叉树
 void PreOrder(BTNode *bt)
 {
     if(bt != NULL)
@@ -51,6 +53,93 @@ void PreOrder(BTNode *bt)
         PreOrder(bt->rchild);
     }
 }
+
+//二叉树先序遍历非递归算法
+void PreOrderNonRecursion(BTNode *bt)
+{
+    if(bt != NULL)
+    {
+        BTNode *Stack[maxSize]; //定义一个栈
+        int top = -1;//初始化栈
+        BTNode *p;
+        Stack[++top] = bt;//根结点入栈
+        while(top != -1)//栈空循环退出，遍历结束
+        {
+            p = Stack[top--];//出栈并输出栈顶结点
+            Visit(p);//Visit为访问p的函数
+            if(p->rchild != NULL)//栈顶结点的右孩子存在，则右孩子入栈
+            {
+                Stack[++top] = p->rchild;
+            }
+            if(p->lchild != NULL)//栈顶结点的左孩子存在，则左孩子入栈
+            {
+                Stack[++top] = p->lchild;
+            }
+        }
+
+    }
+}
+
+//二叉树中序遍历非递归算法
+void InOrderNonRecursion(BTNode *bt)
+{
+    if(bt != NULL)
+    {
+        BTNode *Stack[maxSize];
+        int top = -1;
+        BTNode *p;
+        p = bt;
+        while(top != -1 || p != NULL)
+        {
+            while(p != NULL)
+            {
+                Stack[++top] = p;
+                p= p->lchild;
+            }
+            if(top != NULL)
+            {
+                p = Stack[top--];
+                Visit(p);
+                p = p->rchild;
+            }
+        }
+    }
+}
+
+//二叉树后序遍历非递归算法
+void PostOrderNonRecursion(BTNode *bt)
+{
+    if(bt != NULL)
+    {
+        BTNode *Stack1[maxSize];
+        int top1 = -1;
+        BTNode *Stack2[maxSize];
+        int top2 = -1;
+        BTNode *p = NULL;
+        Stack1[++top1] = bt;
+        while(top1 != -1)
+        {
+            p = Stack1[top1--];
+            Stack2[++top2] = p;
+            if(p->lchild != NULL)
+            {
+                Stack1[++top1] = p->lchild;
+            }
+            if(p->rchild != NULL)
+            {
+                Stack1[++top1] = p->rchild;
+            }
+        }
+        while(top2 != -1)
+        {
+            p = Stack2[top2--];
+            Visit(p);
+        }
+
+    }
+}
+
+
 
 int main() {
     printf("欢迎来到二叉树世界!\n");
